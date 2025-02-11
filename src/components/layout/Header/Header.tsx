@@ -36,7 +36,7 @@ const NavLinks = styled.div`
 `
 
 const NavLink = styled(Link)`
-  color: ${({ theme }) => theme.colors.text.primary};
+  color: ${({ theme }) => theme.colors.text};
   transition: color 0.2s ease;
 
   &:hover {
@@ -56,9 +56,9 @@ const Header = () => {
         <NavLinks>
           <NavLink href="/">Home</NavLink>
           <NavLink href="/about">About</NavLink>
-          <NavLink href="/gallery">Gallery</NavLink>
-          <NavLink href="/news">News</NavLink>
-          <NavLink href="/store">Store</NavLink>
+          <NavLink href="/collections">Collections</NavLink>
+          <NavLink href="/lookbook">Lookbook</NavLink>
+          <NavLink href="/blog">Blog</NavLink>
         </NavLinks>
       </Nav>
     </HeaderContainer>
