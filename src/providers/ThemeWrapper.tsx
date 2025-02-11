@@ -11,8 +11,10 @@ interface Props {
 
 const ThemeWrapper = ({ children }: Props) => (
   <ThemeProvider theme={theme}>
-    <GlobalStyles />
-    {children}
+    <>
+      <GlobalStyles theme={theme} />
+      {children}
+    </>
   </ThemeProvider>
 )
 
