@@ -1,14 +1,36 @@
 'use client'
 
-import React from 'react'
 import Script from 'next/script'
+import { useEffect } from 'react'
 
 // Dummy GA Tracking ID for development
 const DUMMY_GA_ID = 'G-XXXXXXXXXX'
 
-export function Analytics() {
+// Initialize Google Analytics
+const initGA = () => {
+  window.dataLayer = window.dataLayer || []
+  function gtag(...args: any[]) {
+    window.dataLayer.push(args)
+  }
+  gtag('js', new Date())
+  gtag('config', DUMMY_GA_ID)
+}
+
+// Declare gtag for TypeScript
+declare global {
+  interface Window {
+    dataLayer: any[]
+    gtag: (...args: any[]) => void
+  }
+}
+
+export function Analytics(): JSX.Element {
+  useEffect(() => {
+    initGA()
+  }, [])
+
   return (
-    <React.Fragment>
+    <>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${DUMMY_GA_ID}`}
         strategy="afterInteractive"
@@ -21,6 +43,6 @@ export function Analytics() {
           gtag('config', '${DUMMY_GA_ID}');
         `}
       </Script>
-    </React.Fragment>
+    </>
   )
 } 
