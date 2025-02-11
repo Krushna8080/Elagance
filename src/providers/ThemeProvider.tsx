@@ -23,7 +23,6 @@ const theme: DefaultTheme = {
     body: {
       regular: '1rem',
       small: '0.875rem',
-      tiny: '0.75rem',
     },
   },
   spacing: {
