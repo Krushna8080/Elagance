@@ -5,7 +5,6 @@ import { Organization, Store, WebSite } from 'schema-dts'
 export default function JsonLd() {
   const organizationData: Organization = {
     '@type': 'Organization',
-    '@context': 'https://schema.org',
     name: 'Fashion Brand',
     url: process.env.NEXT_PUBLIC_BASE_URL,
     logo: `${process.env.NEXT_PUBLIC_BASE_URL}/logo.png`,
@@ -18,7 +17,6 @@ export default function JsonLd() {
 
   const storeData: Store = {
     '@type': 'Store',
-    '@context': 'https://schema.org',
     name: 'Fashion Brand Store',
     image: [
       `${process.env.NEXT_PUBLIC_BASE_URL}/store-front.jpg`,
@@ -64,7 +62,6 @@ export default function JsonLd() {
 
   const websiteData: WebSite = {
     '@type': 'WebSite',
-    '@context': 'https://schema.org',
     name: 'Fashion Brand',
     url: process.env.NEXT_PUBLIC_BASE_URL,
   }
@@ -73,15 +70,30 @@ export default function JsonLd() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            ...organizationData,
+          }),
+        }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(storeData) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            ...storeData,
+          }),
+        }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            ...websiteData,
+          }),
+        }}
       />
     </>
   )
