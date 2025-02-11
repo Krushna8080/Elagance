@@ -1,5 +1,14 @@
+# Allow all crawlers
 User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://your-app-name.onrender.com/sitemap.xml 
+Sitemap: https://your-domain.onrender.com/sitemap.xml
+
+# Optimize crawling
+Crawl-delay: 1
+
+# Block certain paths
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/ 

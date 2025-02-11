@@ -1,30 +1,44 @@
 'use client'
 
-import { Organization, Store, WebSite } from 'schema-dts'
+import { Organization, Store, WebSite, BreadcrumbList } from 'schema-dts'
 
 export default function JsonLd() {
+  const baseUrl = 'https://your-domain.onrender.com'
+
   const organizationData: Organization = {
     '@type': 'Organization',
-    name: 'Fashion Brand',
-    url: process.env.NEXT_PUBLIC_BASE_URL,
-    logo: `${process.env.NEXT_PUBLIC_BASE_URL}/logo.png`,
+    '@context': 'https://schema.org',
+    name: 'Elegance Fashion',
+    url: baseUrl,
+    logo: `${baseUrl}/logo.png`,
+    description: 'Modern and sustainable fashion brand focused on timeless elegance',
     sameAs: [
-      'https://facebook.com/fashionbrand',
-      'https://instagram.com/fashionbrand',
-      'https://twitter.com/fashionbrand',
+      'https://facebook.com/elegancefashion',
+      'https://instagram.com/elegancefashion',
+      'https://twitter.com/elegancefashion',
+      'https://pinterest.com/elegancefashion',
     ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+1-555-123-4567',
+      contactType: 'customer service',
+      email: 'support@elegancefashion.com',
+      availableLanguage: ['English'],
+    },
   }
 
   const storeData: Store = {
     '@type': 'Store',
-    name: 'Fashion Brand Store',
+    '@context': 'https://schema.org',
+    name: 'Elegance Fashion Store',
     image: [
-      `${process.env.NEXT_PUBLIC_BASE_URL}/store-front.jpg`,
-      `${process.env.NEXT_PUBLIC_BASE_URL}/store-interior.jpg`,
+      `${baseUrl}/store-front.jpg`,
+      `${baseUrl}/store-interior.jpg`,
     ],
-    '@id': `${process.env.NEXT_PUBLIC_BASE_URL}/#store`,
-    url: process.env.NEXT_PUBLIC_BASE_URL,
-    telephone: '(555) 123-4567',
+    '@id': `${baseUrl}/#store`,
+    url: baseUrl,
+    telephone: '+1-555-123-4567',
+    priceRange: '$$',
     address: {
       '@type': 'PostalAddress',
       streetAddress: '123 Fashion Avenue',
@@ -54,16 +68,59 @@ export default function JsonLd() {
       {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: ['Sunday'],
-        opens: '12:00',
         closes: '17:00',
+        opens: '12:00',
+      },
+    ],
+    department: [
+      {
+        '@type': 'Department',
+        name: "Women's Fashion",
+        description: 'Contemporary women\'s clothing and accessories',
+      },
+      {
+        '@type': 'Department',
+        name: "Men's Fashion",
+        description: 'Modern men\'s clothing and accessories',
       },
     ],
   }
 
   const websiteData: WebSite = {
     '@type': 'WebSite',
-    name: 'Fashion Brand',
-    url: process.env.NEXT_PUBLIC_BASE_URL,
+    '@context': 'https://schema.org',
+    name: 'Elegance Fashion',
+    url: baseUrl,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${baseUrl}/search?q={search_term_string}`,
+      'query-input': 'required name=search_term_string',
+    },
+  }
+
+  const breadcrumbData: BreadcrumbList = {
+    '@type': 'BreadcrumbList',
+    '@context': 'https://schema.org',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Collections',
+        item: `${baseUrl}/collections`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'About',
+        item: `${baseUrl}/about`,
+      },
+    ],
   }
 
   return (
@@ -71,28 +128,25 @@ export default function JsonLd() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            ...organizationData,
-          }),
+          __html: JSON.stringify(organizationData),
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            ...storeData,
-          }),
+          __html: JSON.stringify(storeData),
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            ...websiteData,
-          }),
+          __html: JSON.stringify(websiteData),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbData),
         }}
       />
     </>

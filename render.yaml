@@ -2,12 +2,20 @@ services:
   - type: web
     name: elegance-fashion
     env: node
-    buildCommand: NODE_ENV=production npm install && npm run build
+    plan: free
+    buildCommand: npm install && npm run build
     startCommand: npm start
     nodeVersion: 18.x
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 3000
-    autoDeploy: true 
+      - key: NEXT_PUBLIC_BASE_URL
+        value: https://elegance-fashion.onrender.com
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=3600
+    autoDeploy: true
+    healthCheckPath: /
+    domains:
+      - elegance-fashion.onrender.com 

@@ -1,47 +1,53 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
-interface GenerateMetadataProps {
-  title?: string
-  description?: string
-  image?: string
-  noIndex?: boolean
+const defaultMetadata = {
+  title: 'Elegance Fashion Brand | Modern & Sustainable Fashion',
+  description: 'Discover timeless elegance with our sustainable fashion collections. Shop contemporary designs crafted with ethical practices and premium materials.',
+  keywords: 'fashion, sustainable fashion, ethical clothing, modern fashion, elegance, luxury fashion, contemporary style',
 }
 
-export function generateMetadata({
-  title = 'Fashion Brand',
-  description = 'Modern and sophisticated fashion brand focused on sustainable and timeless pieces.',
-  image = '/og-image.jpg',
-  noIndex = false,
-}: GenerateMetadataProps): Metadata {
-  const baseUrl = 'https://fashionbrand.com'
-
+export function generateMetadata({ title, description }: { 
+  title?: string, 
+  description?: string 
+}): Metadata {
   return {
-    title,
-    description,
+    title: title ? `${title} | Elegance Fashion` : defaultMetadata.title,
+    description: description || defaultMetadata.description,
+    keywords: defaultMetadata.keywords,
+    metadataBase: new URL('https://your-domain.onrender.com'),
     openGraph: {
-      title,
-      description,
+      title: title || defaultMetadata.title,
+      description: description || defaultMetadata.description,
+      type: 'website',
+      siteName: 'Elegance Fashion',
       images: [
         {
-          url: image,
+          url: '/images/og-image.jpg',
           width: 1200,
           height: 630,
-          alt: title,
+          alt: 'Elegance Fashion Brand',
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title,
-      description,
-      images: [image],
+      title: title || defaultMetadata.title,
+      description: description || defaultMetadata.description,
+      images: ['/images/og-image.jpg'],
     },
     robots: {
-      index: !noIndex,
-      follow: !noIndex,
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
-    alternates: {
-      canonical: baseUrl,
+    verification: {
+      google: 'your-google-verification-code',
     },
   }
 } 
