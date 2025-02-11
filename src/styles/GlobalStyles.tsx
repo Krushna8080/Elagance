@@ -1,13 +1,8 @@
 'use client'
 
 import { createGlobalStyle } from 'styled-components'
-import type { DefaultTheme } from 'styled-components'
 
-interface GlobalStylesProps {
-  theme: DefaultTheme
-}
-
-export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
+export const GlobalStyles = createGlobalStyle`
   * {
     box-sizing: border-box;
     margin: 0;

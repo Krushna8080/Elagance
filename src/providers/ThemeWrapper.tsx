@@ -9,13 +9,11 @@ interface Props {
   children: React.ReactNode
 }
 
-const ThemeWrapper = ({ children }: Props) => {
-  return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      {children}
-    </ThemeProvider>
-  )
-}
+const ThemeWrapper = ({ children }: Props) => (
+  <ThemeProvider theme={theme}>
+    <GlobalStyles />
+    {children}
+  </ThemeProvider>
+)
 
 export default ThemeWrapper 
