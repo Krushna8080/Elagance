@@ -84,7 +84,8 @@ const NewsletterForm = styled.form`
     font-weight: 500;
 
     &:hover {
-      background: ${({ theme }) => theme.colors.primaryDark};
+      background: ${({ theme }) => theme.colors.primary};
+      filter: brightness(0.85);
       transform: translateY(-2px);
     }
   }
