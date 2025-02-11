@@ -5,7 +5,10 @@ import { Inter, Playfair_Display } from 'next/font/google'
 import { Metadata } from 'next'
 
 const inter = Inter({ subsets: ['latin'] })
-const playfair = Playfair_Display({ subsets: ['latin'] })
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+})
 
 export const metadata: Metadata = {
   title: 'Elegance',
@@ -19,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${playfair.variable}`}>
+      <body className={`${inter.className} ${playfair.className}`}>
         <StyledComponentsRegistry>
           <CartProvider>
             <WishlistProvider>
