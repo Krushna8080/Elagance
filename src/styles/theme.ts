@@ -1,14 +1,14 @@
-export const theme = {
+import type { DefaultTheme } from 'styled-components'
+
+export const theme: DefaultTheme = {
   colors: {
     primary: '#1A1A1A',
     secondary: '#FFFFFF',
     accent: '#D4A373',
     background: '#FAFAFA',
-    text: {
-      primary: '#1A1A1A',
-      secondary: '#4A4A4A',
-      light: '#FFFFFF'
-    }
+    text: '#1A1A1A',
+    textLight: '#4A4A4A',
+    white: '#FFFFFF'
   },
   typography: {
     heading: {
@@ -36,6 +36,4 @@ export const theme = {
     desktop: '1024px',
     wide: '1440px'
   }
-}
-
-export type Theme = typeof theme 
+} 

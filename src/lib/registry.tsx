@@ -3,14 +3,9 @@
 import React, { useState } from 'react'
 import { useServerInsertedHTML } from 'next/navigation'
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components'
-import { ThemeProvider } from '@/providers/ThemeProvider'
-import { GlobalStyles } from '@/styles/GlobalStyles'
+import ThemeWrapper from '@/providers/ThemeWrapper'
 
-export default function StyledComponentsRegistry({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function StyledComponentsRegistry({ children }: { children: React.ReactNode }) {
   const [sheet] = useState(() => new ServerStyleSheet())
 
   useServerInsertedHTML(() => {
@@ -22,20 +17,14 @@ export default function StyledComponentsRegistry({
   if (typeof window !== 'undefined') {
     return (
       <StyleSheetManager enableVendorPrefixes>
-        <ThemeProvider>
-          <GlobalStyles />
-          {children}
-        </ThemeProvider>
+        <ThemeWrapper>{children}</ThemeWrapper>
       </StyleSheetManager>
     )
   }
 
   return (
     <StyleSheetManager sheet={sheet.instance} enableVendorPrefixes>
-      <ThemeProvider>
-        <GlobalStyles />
-        {children}
-      </ThemeProvider>
+      <ThemeWrapper>{children}</ThemeWrapper>
     </StyleSheetManager>
   )
 } 
