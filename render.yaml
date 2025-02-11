@@ -3,7 +3,7 @@ services:
     name: elegance-fashion
     env: node
     plan: free
-    buildCommand: npm install && npm run build
+    buildCommand: npm install && NODE_ENV=production npm run build
     startCommand: npm start
     nodeVersion: 18.x
     envVars:
@@ -11,6 +11,8 @@ services:
         value: production
       - key: NEXT_PUBLIC_BASE_URL
         value: https://elegance-fashion.onrender.com
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
     headers:
       - path: /*
         name: Cache-Control
