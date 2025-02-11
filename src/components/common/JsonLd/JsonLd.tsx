@@ -72,14 +72,14 @@ export default function JsonLd() {
         opens: '12:00',
       },
     ],
-    department: [
+    subOrganization: [
       {
-        '@type': 'Department',
+        '@type': 'Organization',
         name: "Women's Fashion",
         description: 'Contemporary women\'s clothing and accessories',
       },
       {
-        '@type': 'Department',
+        '@type': 'Organization',
         name: "Men's Fashion",
         description: 'Modern men\'s clothing and accessories',
       },
