@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import styled from 'styled-components'
 import Layout from '@/components/layout/Layout/Layout'
 import ClientProviders from '@/components/providers/ClientProviders'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { ProductCard } from '@/components/common/ProductCard/ProductCard'
 import { FilterSidebar } from '@/components/sections/FilterSidebar/FilterSidebar'
@@ -57,7 +57,7 @@ const CollectionDescription = styled.p`
   line-height: 1.8;
 `
 
-const CollectionContent = styled.div`
+const CollectionContentWrapper = styled.div`
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 ${({ theme }) => theme.spacing.xxl};
@@ -92,7 +92,7 @@ const ResultCount = styled.p`
   color: ${({ theme }) => theme.colors.textLight};
 `
 
-export default function CollectionPage() {
+function CollectionContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
@@ -172,55 +172,63 @@ export default function CollectionPage() {
     });
 
   return (
+    <CollectionContainer>
+      <CollectionHeader>
+        <motion.div
+          initial={{ y: -30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <CollectionTitle>Our Collections</CollectionTitle>
+          <CollectionDescription>
+            Explore our latest collections featuring sustainable materials and timeless designs.
+            Each piece is carefully crafted to ensure both style and comfort.
+          </CollectionDescription>
+        </motion.div>
+      </CollectionHeader>
+
+      <CollectionContentWrapper>
+        <FilterSidebar
+          filters={filters}
+          onFilterChange={handleFilterChange}
+        />
+        
+        <div>
+          <SortContainer>
+            <ResultCount>
+              Showing {filteredProducts.length} products
+            </ResultCount>
+            <ProductSort
+              value={filters.sort}
+              onChange={(sort) => handleFilterChange({ sort })}
+            />
+          </SortContainer>
+
+          <ProductGrid ref={ref}>
+            {filteredProducts.map((product, index) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <ProductCard product={product} />
+              </motion.div>
+            ))}
+          </ProductGrid>
+        </div>
+      </CollectionContentWrapper>
+    </CollectionContainer>
+  );
+}
+
+export default function CollectionPage() {
+  return (
     <ClientProviders>
       <Layout>
-        <CollectionContainer>
-          <CollectionHeader>
-            <motion.div
-              initial={{ y: -30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6 }}
-            >
-              <CollectionTitle>Our Collections</CollectionTitle>
-              <CollectionDescription>
-                Explore our latest collections featuring sustainable materials and timeless designs.
-                Each piece is carefully crafted to ensure both style and comfort.
-              </CollectionDescription>
-            </motion.div>
-          </CollectionHeader>
-
-          <CollectionContent>
-            <FilterSidebar
-              filters={filters}
-              onFilterChange={handleFilterChange}
-            />
-            
-            <div>
-              <SortContainer>
-                <ResultCount>
-                  Showing {filteredProducts.length} products
-                </ResultCount>
-                <ProductSort
-                  value={filters.sort}
-                  onChange={(sort) => handleFilterChange({ sort })}
-                />
-              </SortContainer>
-
-              <ProductGrid ref={ref}>
-                {filteredProducts.map((product, index) => (
-                  <motion.div
-                    key={product.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <ProductCard product={product} />
-                  </motion.div>
-                ))}
-              </ProductGrid>
-            </div>
-          </CollectionContent>
-        </CollectionContainer>
+        <Suspense fallback={<div>Loading...</div>}>
+          <CollectionContent />
+        </Suspense>
       </Layout>
     </ClientProviders>
   );
