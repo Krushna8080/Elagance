@@ -1,9 +1,9 @@
 'use client'
 
 import React from 'react'
-import { ThemeProvider as StyledThemeProvider } from 'styled-components'
+import { ThemeProvider as StyledThemeProvider, DefaultTheme } from 'styled-components'
 
-export const theme = {
+const theme: DefaultTheme = {
   colors: {
     primary: '#1a1a1a',
     secondary: '#ffffff',
@@ -41,8 +41,6 @@ export const theme = {
     wide: '1200px',
   },
 }
-
-export type Theme = typeof theme
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   return (
