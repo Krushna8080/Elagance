@@ -93,8 +93,11 @@ export default function JsonLd() {
     url: baseUrl,
     potentialAction: {
       '@type': 'SearchAction',
-      target: `${baseUrl}/search?q={search_term_string}`,
-      'query-input': 'required name=search_term_string',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${baseUrl}/search?q={search_term_string}`,
+      },
+      query: 'required name=search_term_string',
     },
   }
 
