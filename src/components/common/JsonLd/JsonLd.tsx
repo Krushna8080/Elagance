@@ -1,13 +1,13 @@
 'use client'
 
-import { Organization, Store, WebSite, BreadcrumbList } from 'schema-dts'
+import { Organization, Store, WebSite, BreadcrumbList, WithContext } from 'schema-dts'
 
 export default function JsonLd() {
   const baseUrl = 'https://your-domain.onrender.com'
 
-  const organizationData: Organization = {
-    '@type': 'Organization',
+  const organizationData: WithContext<Organization> = {
     '@context': 'https://schema.org',
+    '@type': 'Organization',
     name: 'Elegance Fashion',
     url: baseUrl,
     logo: `${baseUrl}/logo.png`,
@@ -27,9 +27,9 @@ export default function JsonLd() {
     },
   }
 
-  const storeData: Store = {
-    '@type': 'Store',
+  const storeData: WithContext<Store> = {
     '@context': 'https://schema.org',
+    '@type': 'Store',
     name: 'Elegance Fashion Store',
     image: [
       `${baseUrl}/store-front.jpg`,
@@ -86,9 +86,9 @@ export default function JsonLd() {
     ],
   }
 
-  const websiteData: WebSite = {
-    '@type': 'WebSite',
+  const websiteData: WithContext<WebSite> = {
     '@context': 'https://schema.org',
+    '@type': 'WebSite',
     name: 'Elegance Fashion',
     url: baseUrl,
     potentialAction: {
@@ -98,9 +98,9 @@ export default function JsonLd() {
     },
   }
 
-  const breadcrumbData: BreadcrumbList = {
-    '@type': 'BreadcrumbList',
+  const breadcrumbData: WithContext<BreadcrumbList> = {
     '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
     itemListElement: [
       {
         '@type': 'ListItem',
