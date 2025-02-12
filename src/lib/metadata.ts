@@ -3,37 +3,35 @@ import type { Metadata } from 'next'
 const defaultMetadata = {
   title: 'Elegance Fashion Brand | Modern & Sustainable Fashion',
   description: 'Discover timeless elegance with our sustainable fashion collections. Shop contemporary designs crafted with ethical practices and premium materials.',
-  keywords: 'fashion, sustainable fashion, ethical clothing, modern fashion, elegance, luxury fashion, contemporary style',
+  keywords: 'fashion, sustainable fashion, ethical clothing, modern fashion, elegance, luxury fashion, contemporary style, designer clothing, fashion brand, sustainable style',
+  author: 'Elegance Fashion',
+  siteUrl: process.env.NEXT_PUBLIC_BASE_URL || 'https://fashion-brand-website.vercel.app',
 }
 
-export function generateMetadata({ title, description }: { 
-  title?: string, 
-  description?: string 
+export function generateMetadata({ 
+  title, 
+  description,
+  image,
+  path 
+}: { 
+  title?: string
+  description?: string
+  image?: string
+  path?: string
 }): Metadata {
+  const pageTitle = title ? `${title} | ${defaultMetadata.title}` : defaultMetadata.title
+  const pageDescription = description || defaultMetadata.description
+  const pageUrl = `${defaultMetadata.siteUrl}${path || ''}`
+  const pageImage = image || `${defaultMetadata.siteUrl}/images/og-image.jpg`
+
   return {
-    title: title ? `${title} | Elegance Fashion` : defaultMetadata.title,
-    description: description || defaultMetadata.description,
+    title: pageTitle,
+    description: pageDescription,
     keywords: defaultMetadata.keywords,
-    metadataBase: new URL('https://your-domain.onrender.com'),
-    openGraph: {
-      title: title || defaultMetadata.title,
-      description: description || defaultMetadata.description,
-      type: 'website',
-      siteName: 'Elegance Fashion',
-      images: [
-        {
-          url: '/images/og-image.jpg',
-          width: 1200,
-          height: 630,
-          alt: 'Elegance Fashion Brand',
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: title || defaultMetadata.title,
-      description: description || defaultMetadata.description,
-      images: ['/images/og-image.jpg'],
+    authors: [{ name: defaultMetadata.author }],
+    metadataBase: new URL(defaultMetadata.siteUrl),
+    alternates: {
+      canonical: pageUrl,
     },
     robots: {
       index: true,
@@ -46,8 +44,33 @@ export function generateMetadata({ title, description }: {
         'max-snippet': -1,
       },
     },
-    verification: {
-      google: 'your-google-verification-code',
+    openGraph: {
+      title: pageTitle,
+      description: pageDescription,
+      url: pageUrl,
+      siteName: defaultMetadata.title,
+      type: 'website',
+      images: [
+        {
+          url: pageImage,
+          width: 1200,
+          height: 630,
+          alt: pageTitle,
+        },
+      ],
     },
+    twitter: {
+      card: 'summary_large_image',
+      title: pageTitle,
+      description: pageDescription,
+      images: [pageImage],
+      creator: '@elegancefashion',
+      site: '@elegancefashion',
+    },
+    other: {
+      'facebook-domain-verification': '<your-facebook-domain-verification>',
+      'google-site-verification': '<your-google-site-verification>',
+    },
+    manifest: '/manifest.json',
   }
 } 

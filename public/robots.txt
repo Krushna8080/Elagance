@@ -3,12 +3,25 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://your-domain.onrender.com/sitemap.xml
+Sitemap: https://fashion-brand-website.vercel.app/sitemap.xml
 
 # Optimize crawling
 Crawl-delay: 1
 
-# Block certain paths
+# Block sensitive paths
 Disallow: /api/
 Disallow: /_next/
-Disallow: /static/ 
+Disallow: /static/
+
+# Allow specific paths
+Allow: /collections/
+Allow: /products/
+Allow: /blog/
+Allow: /about/
+Allow: /contact/
+
+# Clean Parameters
+Allow: /*?page=
+Allow: /*?sort=
+Allow: /*?category=
+Disallow: /*?* 

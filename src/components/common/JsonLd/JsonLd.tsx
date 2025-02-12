@@ -1,16 +1,27 @@
 'use client'
 
-import { Organization, Store, WebSite, BreadcrumbList, WithContext } from 'schema-dts'
+import { Organization, Store, WebSite, BreadcrumbList, WithContext, Product } from 'schema-dts'
 
-export default function JsonLd() {
-  const baseUrl = 'https://your-domain.onrender.com'
+interface Props {
+  path?: string
+  product?: {
+    name: string
+    description: string
+    price: number
+    image: string
+    sku: string
+  }
+}
+
+export default function JsonLd({ path, product }: Props) {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://your-domain.com'
 
   const organizationData: WithContext<Organization> = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Elegance Fashion',
     url: baseUrl,
-    logo: `${baseUrl}/logo.png`,
+    logo: `${baseUrl}/images/logo.png`,
     description: 'Modern and sustainable fashion brand focused on timeless elegance',
     sameAs: [
       'https://facebook.com/elegancefashion',
@@ -25,6 +36,16 @@ export default function JsonLd() {
       email: 'support@elegancefashion.com',
       availableLanguage: ['English'],
     },
+    foundingDate: '2024',
+    founders: [
+      {
+        '@type': 'Person',
+        name: 'Jane Doe',
+        jobTitle: 'CEO & Founder',
+      },
+    ],
+    ethicsPolicy: `${baseUrl}/ethics-policy`,
+    slogan: 'Sustainable Elegance for Modern Life',
   }
 
   const storeData: WithContext<Store> = {
@@ -32,8 +53,8 @@ export default function JsonLd() {
     '@type': 'Store',
     name: 'Elegance Fashion Store',
     image: [
-      `${baseUrl}/store-front.jpg`,
-      `${baseUrl}/store-interior.jpg`,
+      `${baseUrl}/images/store-front.jpg`,
+      `${baseUrl}/images/store-interior.jpg`,
     ],
     '@id': `${baseUrl}/#store`,
     url: baseUrl,
@@ -72,18 +93,8 @@ export default function JsonLd() {
         opens: '12:00',
       },
     ],
-    subOrganization: [
-      {
-        '@type': 'Organization',
-        name: "Women's Fashion",
-        description: 'Contemporary women\'s clothing and accessories',
-      },
-      {
-        '@type': 'Organization',
-        name: "Men's Fashion",
-        description: 'Modern men\'s clothing and accessories',
-      },
-    ],
+    paymentAccepted: ['Cash', 'Credit Card', 'Debit Card'],
+    currenciesAccepted: 'USD',
   }
 
   const websiteData: WithContext<WebSite> = {
@@ -99,32 +110,64 @@ export default function JsonLd() {
       },
       query: 'required name=search_term_string',
     },
+    description: 'Discover sustainable and elegant fashion for the modern lifestyle',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Elegance Fashion',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${baseUrl}/images/logo.png`,
+      },
+    },
   }
 
   const breadcrumbData: WithContext<BreadcrumbList> = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: baseUrl,
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Collections',
-        item: `${baseUrl}/collections`,
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: 'About',
-        item: `${baseUrl}/about`,
-      },
-    ],
+    itemListElement: path
+      ? path
+          .split('/')
+          .filter(Boolean)
+          .map((part, index, array) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, ' '),
+            item: `${baseUrl}/${array.slice(0, index + 1).join('/')}`,
+          }))
+      : [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: baseUrl,
+          },
+        ],
   }
+
+  const productData = product
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: product.name,
+        description: product.description,
+        image: product.image,
+        sku: product.sku,
+        offers: {
+          '@type': 'Offer',
+          price: product.price,
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock',
+          seller: {
+            '@type': 'Organization',
+            name: 'Elegance Fashion',
+          },
+        },
+        brand: {
+          '@type': 'Brand',
+          name: 'Elegance Fashion',
+        },
+      }
+    : null
 
   return (
     <>
@@ -152,6 +195,14 @@ export default function JsonLd() {
           __html: JSON.stringify(breadcrumbData),
         }}
       />
+      {productData && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(productData),
+          }}
+        />
+      )}
     </>
   )
 } 
