@@ -12,7 +12,7 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'Elegance',
+  title: 'Armoire',
   description: 'Modern and sophisticated fashion brand website',
   verification: {
     google: 'google-site-verification=YOUR_VERIFICATION_CODE', // You'll get this from Google Search Console

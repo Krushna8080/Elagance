@@ -30,14 +30,16 @@ const nextConfig = {
     return [
       {
         source: '/:path*',
-        destination: '/not-found',
-        permanent: false,
-        missing: [
+        has: [
           {
-            type: 'page',
-          },
+            type: 'query',
+            key: 'notfound',
+            value: 'true'
+          }
         ],
-      },
+        destination: '/not-found',
+        permanent: false
+      }
     ];
   },
 }
