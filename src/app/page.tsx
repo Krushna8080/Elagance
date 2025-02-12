@@ -201,7 +201,7 @@ export default function Home() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                Discover our curated collection of sustainable and elegant pieces designed to make you stand out with confidence and grace.
+                Discover our curated collection of sustainable and modern pieces designed to make you stand out with Armoire's signature style and sophistication.
               </motion.p>
               <motion.div
                 initial={{ y: -20, opacity: 0 }}
